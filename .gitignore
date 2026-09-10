@@ -1,0 +1,93 @@
+## ==============================
+## .NET / ASP.NET Core
+## ==============================
+
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+
+# NuGet
+*.nupkg
+**/packages/*
+
+# EF migration bundle
+efbundle
+
+# Local configuration / secrets
+appsettings.*.local.json
+secrets.json
+
+# Logs
+logs/
+*.log
+
+# Publish output
+publish/
+
+# Local databases
+*.db
+*.db-shm
+*.db-wal
+
+
+## ==============================
+## Angular / Node
+## ==============================
+
+# Dependencies
+**/node_modules/
+
+# Angular build/cache output
+**/dist/
+**/.angular/
+
+# Local environment files
+**/environment.local.ts
+
+# npm / yarn logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+**/.cache/
+**/.sass-cache/
+
+
+## ==============================
+## Environment
+## ==============================
+
+.env
+.env.local
+.env.*.local
+
+
+## ==============================
+## Temporary / OS
+## ==============================
+
+.DS_Store
+Thumbs.db
+
+*.tmp
+*.bak
+*.swp
