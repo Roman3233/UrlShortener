@@ -22,7 +22,7 @@ namespace UrlShortener.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UrlShortener.Data.Entities.ShortUrl", b =>
+            modelBuilder.Entity("UrlShortener.Core.Entities.ShortUrl", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace UrlShortener.Data.Migrations
                     b.ToTable("ShortUrls");
                 });
 
-            modelBuilder.Entity("UrlShortener.Data.Entities.User", b =>
+            modelBuilder.Entity("UrlShortener.Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,9 +86,9 @@ namespace UrlShortener.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UrlShortener.Data.Entities.ShortUrl", b =>
+            modelBuilder.Entity("UrlShortener.Core.Entities.ShortUrl", b =>
                 {
-                    b.HasOne("UrlShortener.Data.Entities.User", "CreatedBy")
+                    b.HasOne("UrlShortener.Core.Entities.User", "CreatedBy")
                         .WithMany("ShortUrls")
                         .HasForeignKey("CreatedByUserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -97,7 +97,7 @@ namespace UrlShortener.Data.Migrations
                     b.Navigation("CreatedBy");
                 });
 
-            modelBuilder.Entity("UrlShortener.Data.Entities.User", b =>
+            modelBuilder.Entity("UrlShortener.Core.Entities.User", b =>
                 {
                     b.Navigation("ShortUrls");
                 });

@@ -1,4 +1,4 @@
-namespace UrlShortener.Data.Entities;
+namespace UrlShortener.Core.Entities;
 
 public enum UserRole
 {
