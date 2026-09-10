@@ -52,6 +52,18 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         };
     });
 
+const string AngularDevCors = "AngularDevCors";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(AngularDevCors, policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
@@ -65,6 +77,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseCors(AngularDevCors);
 
 app.UseAuthentication();
 app.UseAuthorization();
