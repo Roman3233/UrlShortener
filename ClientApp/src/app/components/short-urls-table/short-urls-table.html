@@ -1,0 +1,50 @@
+<div class="table-container">
+    <h1>Short URLs</h1>
+
+    @if (authService.isAuthenticated()) {
+    <div class="add-url-section">
+        <h2>Add new URL</h2>
+        <form (ngSubmit)="onAddUrl()">
+            <input type="text" name="newUrl" [(ngModel)]="newUrl" placeholder="https://example.com" required />
+            <button type="submit" [disabled]="isSubmitting()">
+                {{ isSubmitting() ? 'Adding...' : 'Shorten' }}
+            </button>
+        </form>
+
+        @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+        }
+    </div>
+    }
+
+    <table>
+        <thead>
+            <tr>
+                <th>Original URL</th>
+                <th>Short URL</th>
+                <th>Created By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (url of urls(); track url.id) {
+            <tr>
+                <td>{{ url.originalUrl }}</td>
+                <td>
+                    @if (authService.isAuthenticated()) {
+                    <a [routerLink]="['/urls', url.id]">{{ url.shortUrl }}</a>
+                    } @else {
+                    {{ url.shortUrl }}
+                    }
+                </td>
+                <td>{{ url.createdByLogin }}</td>
+                <td>
+                    @if (canDelete(url)) {
+                    <button (click)="onDelete(url.id)">Delete</button>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
