@@ -10,7 +10,8 @@ import { ShortUrl } from '../../models/short-url.model';
   selector: 'app-short-urls-table',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './short-urls-table.html'
+  templateUrl: './short-urls-table.html',
+  styleUrl: './short-urls-table.scss'
 })
 export class ShortUrlsTableComponent implements OnInit {
   urls = signal<ShortUrl[]>([]);

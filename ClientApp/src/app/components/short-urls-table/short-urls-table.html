@@ -1,50 +1,99 @@
 <div class="table-container">
-    <h1>Short URLs</h1>
+    <div class="header-section">
+        <h1>Short URLs</h1>
+        <p class="subtitle">Easily shorten and manage all your links in one place</p>
+    </div>
 
     @if (authService.isAuthenticated()) {
     <div class="add-url-section">
-        <h2>Add new URL</h2>
-        <form (ngSubmit)="onAddUrl()">
-            <input type="text" name="newUrl" [(ngModel)]="newUrl" placeholder="https://example.com" required />
-            <button type="submit" [disabled]="isSubmitting()">
-                {{ isSubmitting() ? 'Adding...' : 'Shorten' }}
+        <h2>Shorten a new URL</h2>
+        <form class="add-url-form" (ngSubmit)="onAddUrl()">
+            <div class="input-wrapper">
+                <input 
+                    type="url" 
+                    name="newUrl" 
+                    class="url-input"
+                    [(ngModel)]="newUrl" 
+                    placeholder="https://example.com/very-long-url-path" 
+                    required 
+                />
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+                @if (isSubmitting()) {
+                    <span class="spinner"></span>
+                    <span>Adding...</span>
+                } @else {
+                    <span>Shorten URL</span>
+                }
             </button>
         </form>
 
         @if (errorMessage()) {
-        <p class="error">{{ errorMessage() }}</p>
+        <div class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <span>{{ errorMessage() }}</span>
+        </div>
         }
     </div>
     }
 
-    <table>
-        <thead>
-            <tr>
-                <th>Original URL</th>
-                <th>Short URL</th>
-                <th>Created By</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (url of urls(); track url.id) {
-            <tr>
-                <td>{{ url.originalUrl }}</td>
-                <td>
-                    @if (authService.isAuthenticated()) {
-                    <a [routerLink]="['/urls', url.id]">{{ url.shortUrl }}</a>
-                    } @else {
-                    {{ url.shortUrl }}
+    <div class="table-card">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="th-original">Original URL</th>
+                        <th class="th-short">Short URL</th>
+                        <th class="th-user">Created By</th>
+                        <th class="th-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (url of urls(); track url.id) {
+                    <tr>
+                        <td class="td-original">
+                            <a [href]="url.originalUrl" target="_blank" rel="noopener noreferrer" class="original-link" [title]="url.originalUrl">
+                                {{ url.originalUrl }}
+                            </a>
+                        </td>
+                        <td class="td-short">
+                            @if (authService.isAuthenticated()) {
+                            <a [routerLink]="['/urls', url.id]" class="short-link">
+                                {{ url.shortUrl }}
+                            </a>
+                            } @else {
+                            <span class="short-link-plain">{{ url.shortUrl }}</span>
+                            }
+                        </td>
+                        <td class="td-user">
+                            <span class="user-badge">{{ url.createdByLogin }}</span>
+                        </td>
+                        <td class="td-actions">
+                            @if (canDelete(url)) {
+                            <button type="button" class="btn-delete" (click)="onDelete(url.id)">
+                                Delete
+                            </button>
+                            }
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <div class="empty-content">
+                                <p>No shortened URLs yet.</p>
+                                @if (authService.isAuthenticated()) {
+                                    <span class="empty-hint">Enter a URL above to create your first short link!</span>
+                                } @else {
+                                    <span class="empty-hint">Log in to create your first short link!</span>
+                                }
+                            </div>
+                        </td>
+                    </tr>
                     }
-                </td>
-                <td>{{ url.createdByLogin }}</td>
-                <td>
-                    @if (canDelete(url)) {
-                    <button (click)="onDelete(url.id)">Delete</button>
-                    }
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
