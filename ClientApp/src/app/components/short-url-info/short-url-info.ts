@@ -8,7 +8,8 @@ import { ShortUrl } from '../../models/short-url.model';
   selector: 'app-short-url-info',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './short-url-info.html'
+  templateUrl: './short-url-info.html',
+  styleUrl: './short-url-info.scss'
 })
 export class ShortUrlInfoComponent implements OnInit {
   url = signal<ShortUrl | null>(null);

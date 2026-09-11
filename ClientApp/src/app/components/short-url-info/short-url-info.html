@@ -1,23 +1,63 @@
 <div class="info-container">
-    <a routerLink="/">&larr; Back to table</a>
+    <div class="nav-bar">
+        <a routerLink="/" class="back-link">
+            <span class="arrow">&larr;</span>
+            <span>Back to URLs</span>
+        </a>
+    </div>
 
     @if (notFound()) {
-    <p class="error">This URL was not found.</p>
+    <div class="error-card">
+        <div class="error-icon">🔍</div>
+        <h2>Short URL Not Found</h2>
+        <p>The link you are looking for does not exist or may have been deleted.</p>
+        <a routerLink="/" class="btn btn-primary">Return to Table</a>
+    </div>
     } @else if (url()) {
-    <h1>Short URL details</h1>
+    <div class="details-card">
+        <div class="card-header">
+            <div class="header-left">
+                <h1>Short URL Details</h1>
+                <p class="subtitle">Detailed information about this shortened link</p>
+            </div>
+            <span class="code-badge">{{ url()!.shortCode }}</span>
+        </div>
 
-    <dl>
-        <dt>Original URL</dt>
-        <dd><a [href]="url()!.originalUrl" target="_blank">{{ url()!.originalUrl }}</a></dd>
+        <div class="details-list">
+            <div class="detail-item">
+                <span class="detail-label">Original Destination</span>
+                <div class="detail-value">
+                    <a [href]="url()!.originalUrl" target="_blank" rel="noopener noreferrer" class="link-original">
+                        {{ url()!.originalUrl }}
+                        <span class="external-icon">↗</span>
+                    </a>
+                </div>
+            </div>
 
-        <dt>Short URL</dt>
-        <dd><a [href]="url()!.shortUrl" target="_blank">{{ url()!.shortUrl }}</a></dd>
+            <div class="detail-item">
+                <span class="detail-label">Short Equivalent</span>
+                <div class="detail-value">
+                    <a [href]="url()!.shortUrl" target="_blank" rel="noopener noreferrer" class="link-short">
+                        {{ url()!.shortUrl }}
+                        <span class="external-icon">↗</span>
+                    </a>
+                </div>
+            </div>
 
-        <dt>Created by</dt>
-        <dd>{{ url()!.createdByLogin }}</dd>
+            <div class="detail-item">
+                <span class="detail-label">Created By</span>
+                <div class="detail-value">
+                    <span class="user-badge">{{ url()!.createdByLogin }}</span>
+                </div>
+            </div>
 
-        <dt>Created date</dt>
-        <dd>{{ url()!.createdDate | date:'medium' }}</dd>
-    </dl>
+            <div class="detail-item">
+                <span class="detail-label">Creation Date</span>
+                <div class="detail-value text-muted">
+                    {{ url()!.createdDate | date:'medium' }}
+                </div>
+            </div>
+        </div>
+    </div>
     }
 </div>

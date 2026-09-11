@@ -1,23 +1,71 @@
-<div class="login-container">
-    <h1>Login</h1>
-
-    <form (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="login">Login</label>
-            <input id="login" name="login" type="text" [(ngModel)]="login" required />
+<div class="login-page">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">🔐</div>
+            <h1>Sign In</h1>
+            <p class="subtitle">Access your shortened URLs and management tools</p>
         </div>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" [(ngModel)]="password" required />
+        <form (ngSubmit)="onSubmit()" class="login-form">
+            <div class="form-group">
+                <label for="login">Login</label>
+                <input 
+                    id="login" 
+                    name="login" 
+                    type="text" 
+                    class="form-control"
+                    [(ngModel)]="login" 
+                    placeholder="Enter your login"
+                    autocomplete="username"
+                    required 
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    id="password" 
+                    name="password" 
+                    type="password" 
+                    class="form-control"
+                    [(ngModel)]="password" 
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required 
+                />
+            </div>
+
+            @if (errorMessage()) {
+            <div class="error-message">
+                <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <span>{{ errorMessage() }}</span>
+            </div>
+            }
+
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
+                @if (isLoading()) {
+                    <span class="spinner"></span>
+                    <span>Signing in...</span>
+                } @else {
+                    <span>Sign In</span>
+                }
+            </button>
+        </form>
+
+        <div class="demo-credentials">
+            <p class="demo-title">Test Accounts:</p>
+            <div class="demo-items">
+                <div class="demo-item">
+                    <span class="demo-role">Admin:</span>
+                    <code>admin / admin123</code>
+                </div>
+                <div class="demo-item">
+                    <span class="demo-role">User:</span>
+                    <code>user / user123</code>
+                </div>
+            </div>
         </div>
-
-        @if (errorMessage()) {
-        <p class="error">{{ errorMessage() }}</p>
-        }
-
-        <button type="submit" [disabled]="isLoading()">
-            {{ isLoading() ? 'Logging in...' : 'Login' }}
-        </button>
-    </form>
+    </div>
 </div>

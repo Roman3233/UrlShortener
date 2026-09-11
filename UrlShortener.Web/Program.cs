@@ -103,6 +103,8 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.MapGet("/", () => Results.Redirect("/About"));
+
 app.MapControllers();
 
 app.MapControllerRoute(

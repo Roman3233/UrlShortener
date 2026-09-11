@@ -6,6 +6,7 @@ using UrlShortener.Data;
 
 namespace UrlShortener.Web.Controllers;
 
+[Route("[controller]")]
 public class AboutController : Controller
 {
     private readonly AppDbContext _context;
@@ -15,7 +16,8 @@ public class AboutController : Controller
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("")]
+    [HttpGet("Index")]
     public async Task<IActionResult> Index()
     {
         var content = await _context.AboutContents.FirstOrDefaultAsync();
@@ -28,9 +30,10 @@ public class AboutController : Controller
         return View(content);
     }
 
-    [HttpPost]
+    [HttpPost("")]
+    [HttpPost("Index")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Index(string description)
+    public async Task<IActionResult> Index([FromForm] string description)
     {
         var content = await _context.AboutContents.FirstOrDefaultAsync();
 

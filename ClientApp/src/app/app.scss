@@ -1,0 +1,155 @@
+.app-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: #0f172a;
+        font-weight: 700;
+        font-size: 1.25rem;
+
+        .logo-icon {
+            font-size: 1.35rem;
+        }
+
+        .logo-text {
+            letter-spacing: -0.02em;
+        }
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.25rem;
+
+        a {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.925rem;
+            font-weight: 500;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            transition: color 0.15s, background-color 0.15s;
+
+            &:hover {
+                color: #0f172a;
+                background-color: #f1f5f9;
+            }
+
+            &.active {
+                color: #4f46e5;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 0.3rem 0.75rem;
+        border-radius: 9999px;
+
+        .user-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .role-badge {
+            font-size: 0.725rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+            background-color: #e2e8f0;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+
+            &.badge-admin {
+                background-color: #eef2ff;
+                color: #4f46e5;
+            }
+        }
+    }
+
+    .btn-logout {
+        padding: 0.4rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #64748b;
+        background: transparent;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+
+        &:hover {
+            color: #dc2626;
+            border-color: #fca5a5;
+            background-color: #fef2f2;
+        }
+    }
+
+    .btn-login {
+        text-decoration: none;
+        padding: 0.45rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #ffffff;
+        background-color: #4f46e5;
+        border-radius: 6px;
+        transition: background-color 0.15s;
+
+        &:hover {
+            background-color: #4338ca;
+        }
+    }
+}
+
+.main-content {
+    min-height: calc(100vh - 65px);
+}
+
+@media (max-width: 640px) {
+    .header-inner {
+        padding: 0.75rem 1rem;
+    }
+
+    .nav-brand {
+        gap: 1rem;
+
+        .logo-text {
+            display: none;
+        }
+    }
+}

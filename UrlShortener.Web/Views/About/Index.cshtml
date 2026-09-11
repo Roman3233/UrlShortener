@@ -1,19 +1,155 @@
 @model UrlShortener.Core.Entities.AboutContent
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "About Algorithm";
 }
 
-<h1>About</h1>
+<style>
+    .page-header {
+        margin-bottom: 2rem;
+    }
+    .page-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.35rem;
+        letter-spacing: -0.025em;
+    }
+    .page-header .subtitle {
+        color: #64748b;
+        font-size: 0.975rem;
+    }
+    .content-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+        padding: 2rem;
+    }
+    .section-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1rem;
+    }
+    .description-box {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        color: #334155;
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+    .admin-edit-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    .admin-badge-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        padding: 0.6rem 1rem;
+        background-color: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+    }
+    .admin-tag {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background-color: #dcfce7;
+        color: #15803d;
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+    }
+    .admin-hint {
+        font-size: 0.85rem;
+        color: #166534;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+    .form-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #334155;
+    }
+    .form-textarea {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        font-size: 0.95rem;
+        font-family: inherit;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        color: #1e293b;
+        outline: none;
+        resize: vertical;
+        line-height: 1.6;
+        transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-textarea:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .public-notice {
+        margin-top: 1.75rem;
+        padding: 0.85rem 1rem;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        color: #64748b;
+    }
+</style>
 
-<p>@Model.Description</p>
+<div class="about-page">
+    <div class="page-header">
+        <h1>About the URL Shortener Algorithm</h1>
+        <p class="subtitle">How our service converts long URLs into compact, collision-free short codes</p>
+    </div>
 
-@if (User.IsInRole("Admin"))
-{
-        <form asp-action="Index" method="post">
-            <div class="form-group">
-                <label for="description">Edit description</label>
-                <textarea name="description" class="form-control" rows="5">@Model.Description</textarea>
+    <div class="content-card">
+        <div class="card-section">
+            <h2 class="section-title">Current Algorithm Description</h2>
+            <div class="description-box">
+                <p>@Model.Description</p>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Save</button>
-        </form>
-}
+        </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="admin-edit-section">
+                <div class="admin-badge-bar">
+                    <span class="admin-tag">⚡ Admin Mode</span>
+                    <span class="admin-hint">As an administrator, you can modify the public algorithm description below.</span>
+                </div>
+
+                <form asp-action="Index" method="post" class="edit-form">
+                    <div class="form-group">
+                        <label for="description" class="form-label">Edit Algorithm Description</label>
+                        <textarea id="description" name="description" class="form-textarea" rows="5" required>@Model.Description</textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="public-notice">
+                <span>ℹ️ This page is visible to everyone. Only administrators can edit this algorithm description.</span>
+            </div>
+        }
+    </div>
+</div>

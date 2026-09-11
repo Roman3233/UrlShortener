@@ -1,22 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - UrlShortener</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.85rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.25rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.925rem;
+            font-weight: 500;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        .nav-links a:hover {
+            color: #0f172a;
+            background-color: #f1f5f9;
+        }
+        .nav-links a.active {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 0.3rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .role-badge {
+            font-size: 0.725rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+            background-color: #e2e8f0;
+            color: #475569;
+            text-transform: uppercase;
+        }
+        .role-badge.badge-admin {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+        .main-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+        .btn-login {
+            text-decoration: none;
+            padding: 0.45rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #4f46e5;
+            border-radius: 6px;
+        }
+        .btn-logout {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748b;
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-logout:hover {
+            color: #dc2626;
+            border-color: #fca5a5;
+            background-color: #fef2f2;
+        }
+    </style>
 </head>
-
 <body>
-    <header>
-        <nav>
-            <a asp-controller="About" asp-action="Index">About</a>
-        </nav>
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="nav-brand">
+                <a href="http://localhost:4200/" class="logo">
+                    <span>🔗</span>
+                    <span>UrlShortener</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="http://localhost:4200/">Short URLs</a>
+                    <a asp-controller="About" asp-action="Index" class="active">About</a>
+                </nav>
+            </div>
+
+            <div class="user-section">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="user-profile">
+                        <span>@User.Identity.Name</span>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <span class="role-badge badge-admin">Admin</span>
+                        }
+                        else
+                        {
+                            <span class="role-badge">User</span>
+                        }
+                    </div>
+                    <form action="/api/auth/logout?returnUrl=/About" method="post" style="display:inline;">
+                        <button type="submit" class="btn-logout">Logout</button>
+                    </form>
+                }
+                else
+                {
+                    <a href="http://localhost:4200/login" class="btn-login">Login</a>
+                }
+            </div>
+        </div>
     </header>
 
-    <main role="main" class="container">
+    <main role="main" class="main-container">
         @RenderBody()
     </main>
 </body>
-
 </html>

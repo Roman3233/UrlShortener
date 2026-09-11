@@ -52,9 +52,21 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("logout")]
-    public async Task<IActionResult> Logout()
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout([FromQuery] string? returnUrl = null)
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        if (!string.IsNullOrEmpty(returnUrl))
+        {
+            return LocalRedirect(returnUrl);
+        }
+
+        if (Request.Headers.Accept.ToString().Contains("text/html"))
+        {
+            return RedirectToAction("Index", "About");
+        }
+
         return Ok(new { message = "Logged out successfully." });
     }
 

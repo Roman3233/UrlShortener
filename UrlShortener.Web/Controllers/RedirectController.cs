@@ -16,6 +16,11 @@ public class RedirectController : ControllerBase
     [HttpGet("/{shortCode}")]
     public async Task<IActionResult> RedirectToOriginal(string shortCode)
     {
+        if (string.Equals(shortCode, "about", StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToAction("Index", "About");
+        }
+
         var originalUrl = await _service.ResolveOriginalUrlAsync(shortCode);
 
         if (originalUrl is null)
