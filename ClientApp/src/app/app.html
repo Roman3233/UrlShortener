@@ -1,1 +1,19 @@
-<router-outlet></router-outlet>
+<header class="app-header">
+    <nav>
+        <a routerLink="/">Short URLs</a>
+        <a href="/About">About</a>
+    </nav>
+
+    <div class="user-info">
+        @if (authService.isAuthenticated()) {
+        <span>{{ authService.currentUser()?.login }} ({{ authService.currentUser()?.role }})</span>
+        <button (click)="onLogout()">Logout</button>
+        } @else {
+        <a routerLink="/login">Login</a>
+        }
+    </div>
+</header>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
