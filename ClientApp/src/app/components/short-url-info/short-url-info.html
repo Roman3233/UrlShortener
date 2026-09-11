@@ -1,0 +1,23 @@
+<div class="info-container">
+    <a routerLink="/">&larr; Back to table</a>
+
+    @if (notFound()) {
+    <p class="error">This URL was not found.</p>
+    } @else if (url()) {
+    <h1>Short URL details</h1>
+
+    <dl>
+        <dt>Original URL</dt>
+        <dd><a [href]="url()!.originalUrl" target="_blank">{{ url()!.originalUrl }}</a></dd>
+
+        <dt>Short URL</dt>
+        <dd><a [href]="url()!.shortUrl" target="_blank">{{ url()!.shortUrl }}</a></dd>
+
+        <dt>Created by</dt>
+        <dd>{{ url()!.createdByLogin }}</dd>
+
+        <dt>Created date</dt>
+        <dd>{{ url()!.createdDate | date:'medium' }}</dd>
+    </dl>
+    }
+</div>
