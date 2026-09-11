@@ -59,13 +59,16 @@
                             </a>
                         </td>
                         <td class="td-short">
-                            @if (authService.isAuthenticated()) {
-                            <a [routerLink]="['/urls', url.id]" class="short-link">
-                                {{ url.shortUrl }}
-                            </a>
-                            } @else {
-                            <span class="short-link-plain">{{ url.shortUrl }}</span>
-                            }
+                            <div class="short-link-group">
+                                @if (authService.isAuthenticated()) {
+                                <a [routerLink]="['/urls', url.id]" class="short-link">
+                                    {{ url.shortUrl }}
+                                </a>
+                                } @else {
+                                <span class="short-link-plain">{{ url.shortUrl }}</span>
+                                }
+                                <button type="button" class="btn-copy" (click)="copyToClipboard(url.shortUrl)" title="Copy short link">📋</button>
+                            </div>
                         </td>
                         <td class="td-user">
                             <span class="user-badge">{{ url.createdByLogin }}</span>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ShortUrlService } from '../../services/short-url.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 import { ShortUrl } from '../../models/short-url.model';
 
 @Component({
@@ -21,7 +22,8 @@ export class ShortUrlsTableComponent implements OnInit {
 
   constructor(
     private shortUrlService: ShortUrlService,
-    public authService: AuthService
+    public authService: AuthService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -47,14 +49,15 @@ export class ShortUrlsTableComponent implements OnInit {
         this.urls.update(current => [created, ...current]);
         this.newUrl = '';
         this.isSubmitting.set(false);
+        this.toastService.success('URL shortened successfully!');
       },
       error: (err) => {
         this.isSubmitting.set(false);
-        if (err.status === 409) {
-          this.errorMessage.set('This URL has already been shortened.');
-        } else {
-          this.errorMessage.set('Something went wrong. Please try again.');
-        }
+        const msg = err.status === 409
+          ? 'This URL has already been shortened.'
+          : 'Something went wrong. Please try again.';
+        this.errorMessage.set(msg);
+        this.toastService.error(msg);
       }
     });
   }
@@ -63,7 +66,19 @@ export class ShortUrlsTableComponent implements OnInit {
     this.shortUrlService.delete(id).subscribe({
       next: () => {
         this.urls.update(current => current.filter(u => u.id !== id));
+        this.toastService.info('URL deleted successfully.');
+      },
+      error: () => {
+        this.toastService.error('Failed to delete URL.');
       }
+    });
+  }
+
+  copyToClipboard(shortUrl: string): void {
+    navigator.clipboard.writeText(shortUrl).then(() => {
+      this.toastService.success('Short link copied to clipboard!');
+    }).catch(() => {
+      this.toastService.error('Failed to copy link.');
     });
   }
 
