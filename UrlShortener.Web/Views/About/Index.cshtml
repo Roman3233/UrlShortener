@@ -1,0 +1,19 @@
+@model UrlShortener.Core.Entities.AboutContent
+@{
+    ViewData["Title"] = "About";
+}
+
+<h1>About</h1>
+
+<p>@Model.Description</p>
+
+@if (User.IsInRole("Admin"))
+{
+        <form asp-action="Index" method="post">
+            <div class="form-group">
+                <label for="description">Edit description</label>
+                <textarea name="description" class="form-control" rows="5">@Model.Description</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Save</button>
+        </form>
+}
